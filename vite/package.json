@@ -1,0 +1,14 @@
+{
+  "name": "my-graffiti-app",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@graffiti-garden/actor-client": "^1.0.11",
+    "@graffiti-garden/plugin-vue": "^1.1.1",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "vite": "^4.4.11"
+  }
+}

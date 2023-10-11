@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>My Graffiti App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@graffiti-garden/actor-client/client.css">
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "vue":
+         "https://cdn.jsdelivr.net/npm/vue/dist/vue.esm-browser.js",
+        "@graffiti-garden/plugin-vue":
+         "https://cdn.jsdelivr.net/npm/@graffiti-garden/plugin-vue@1.1.0"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <p>
+      <button @click="$gf.logIn">
+        Select Actor
+      </button>
+      <button @click="$gf.logOut">
+        Log Out
+      </button>
+    </p>
+
+    <p>
+      Your Actor ID is: {{ $gf.me }}
+    </p>
+
+    <input v-model="context">
+
+    <graffiti-links v-slot="{ links }" :source="context">
+      <ul>
+        <li v-for="link in links">
+          {{ link.target }}
+          <template v-if="link.actor==$gf.me">
+            <button @click="$gf.deleteLink(link)">
+              ␡
+            </button>
+          </template>
+        </li>
+      </ul>
+    </graffiti-links>
+
+    <form v-if="$gf.me" @submit.prevent="
+      $gf.postLink(context, message);
+      message='';
+    ">
+      <input v-model="message">
+      <input type="submit" value="Post">
+    </form>
+    <div v-else>
+      You need to log in to post yourself.
+    </div>
+  </div>
+  <script type="module">
+    import { createApp } from 'vue'
+    import GraffitiVue from '@graffiti-garden/plugin-vue'
+
+    createApp({
+      data() {
+        return {
+          message: '',
+          context: 'something'
+        }
+      }
+    })
+      .use(GraffitiVue)
+      .mount('#app')
+  </script>
+</body>
+</html>
